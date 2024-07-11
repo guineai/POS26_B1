@@ -39,7 +39,7 @@
             width: 48%;
             height: 500px;
         }
-        #video-container video {
+        #video-container img {
             width: 100%;
             height: 100%;
             border-radius: 10px;
@@ -55,10 +55,7 @@
     <div id="header">sweeT.T : AI 주차 연습 도우미</div>
     <div id="content">
         <div id="video-container">
-            <video id="video-frame" controls autoplay loop>
-                <source src="/video" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <img id="video-frame" alt="Video Stream">
         </div>
         <div id="chartdiv"></div>
     </div>
@@ -211,6 +208,11 @@
             socket.on('update_angle', function(data) {
                 console.log("Received angle:", data.angle);
                 updateChart(data.angle);
+            });
+
+            // Listen for 'video_frame' events and update the video frame
+            socket.on('video_frame', function(data) {
+                document.getElementById('video-frame').src = 'data:image/jpeg;base64,' + data.frame;
             });
         }); // end am5.ready()
     </script>
